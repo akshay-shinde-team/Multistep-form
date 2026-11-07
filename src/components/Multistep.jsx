@@ -4,8 +4,29 @@ import { useState } from "react";
 import { Name } from "./Name";
 import { Address } from "./Address";
 import { Education } from "./Education";
-
+import db from "../database/db";
 function Multistep(){
+    ///Browser database Connection
+
+    const saveformData = async () =>{
+
+        try{
+            await db.forms.put({
+                id:"registraion-001",
+                name:name,
+                address:address,
+                education:education,
+                currentstep:currentstep
+            });
+
+            console.log("Form Data saved succesfully");
+        }
+        catch (error){
+            console.error("Error while saving data : ", error);
+        }
+    };
+
+    ///
 
     const[name, setName] = useState({
             fname:"Akshay",
@@ -28,7 +49,9 @@ function Multistep(){
 
     //Increase the step
 
-    const handleNext = () =>{
+    const handleNext = async() =>{
+
+        await saveformData();
         let isValid = true;
 
     if (currentstep === 1) {
